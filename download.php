@@ -45,13 +45,13 @@ $query->execute(
 
 // 1 day measured in seconds = 60 seconds * 60 minutes * 24 hours
 // $delta = 32000;
-$delta = 60;
+// $delta = 32000;
  
 // Check to see if link has expired
 if ($_SERVER["REQUEST_TIME"] - $tstamp > $delta) {
     throw new Exception("Token has expired.");
 }else{
-    echo 'token still good';
+    include 'pages/directory.php';
 }
 // do one-time action here, like activating a user account
 // ...

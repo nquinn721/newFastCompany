@@ -1,4 +1,28 @@
 <!DOCTYPE html>
+<?php
+session_start();
+
+if(isset($_SESSION['purchased'])){
+	?>
+	<script type="text/javascript">
+	var purchased = true;
+	</script>
+	<?php
+	unset($_SESSION['purchased']);
+}else{
+	?>
+	<script type="text/javascript">
+	var purchased = false;
+	</script>
+	<?php
+}
+
+//** clients 
+// sk 
+// sk_test_49mt7Hf62BECXYbMN9sUCTlw
+// pk
+// pk_test_skmrPuz95DEWkKuUN7hO8brj
+?>
 <head>
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
@@ -7,6 +31,13 @@
 	<script type="text/javascript" src="https://checkout.stripe.com/v2/checkout.js"></script>
 </head>
 <body>
+	<div class="splash none">
+		<div class="purchased">
+			<h1>Thanks for purchasing Directory!</h1>
+			Please Check your email for link to download.
+		</div>	
+	</div>
+	
 	<div class="wrapper">
 		<div class="top section">
 			<div class="head"><h1>New Manufacturing	Research</h1></div>
@@ -120,17 +151,53 @@
 
 
 					StripeCheckout.open({
-						key : 'pk_test_skmrPuz95DEWkKuUN7hO8brj',
+						key : 'pk_test_SxLXrzbxiAiTwnt8qiOW1agS',
 						amount : Number(price),
 						currency : 'eur',
 						name : 'FastCompany',
 						description : plan[0].toUpperCase() + plan.substring(1),
 						panelLabel : 'Checkout',
-						image : '/image.png',
+						image : 'img/logo.jpg',
 						token : token
 					})
 
 					return false;
 				})
+if(purchased){
+	var purchase = $('.purchased');
+	var splash = $('.splash');
 
-			</script>
+	splash.css('height', $(document).height());
+
+	purchase.css({
+		left : ($(window).width() / 2) - 375,
+		top : $(document).scrollTop() + ($(window).height() / 2 - purchase.height() / 2)
+	})
+	setTimeout(function () {
+		splash.show();	
+	}, 100)
+	
+	splash.on('click', function () {
+	 	$(this).hide();
+	})
+}
+</script>
+<style type="text/css">
+	.none{display: none;}
+	.splash{
+		background: rgba(0, 0 , 0, 0.5);
+		position: absolute;
+		z-index: 998;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.purchased{
+		background: white;
+		border-radius: 5px;
+		padding: 0 50px 50px;
+		color: #555;
+		position: absolute;
+	}
+</style>
